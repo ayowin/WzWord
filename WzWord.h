@@ -44,7 +44,7 @@
  *              w.close();
  *          }
  *
- *  说明：传入绝对路径
+ *  说明：①传入绝对路径。②请用*.docx格式(我的测试格式，其他格式不保证稳定)
  */
 
 class WzWord
@@ -56,6 +56,8 @@ public:
 
     //打开，不存在则创建，默认窗体不可见，不显示警告，如无特殊需要，请保持默认
     bool open(bool visible=false,bool displayAlerts=false);
+    //设置visible，true: 可视，false: 隐藏
+    bool setVisible(bool visible);
     //保存
     bool save();
     //另存为

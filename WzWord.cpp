@@ -89,6 +89,22 @@ bool WzWord::open(bool visible, bool displayAlerts)
     return true;
 }
 
+bool WzWord::setVisible(bool visible)
+{
+    qDebug()<<"WzWord: setVisible(bool visible)";
+
+    if(word == NULL)
+    {
+        qDebug()<<"WzWord: 设置visible失败，word对象为空";
+        return false;
+    }
+    else
+    {
+        word->dynamicCall("SetVisible(bool)", visible);
+        return true;
+    }
+}
+
 bool WzWord::save()
 {
     qDebug()<< "WzWord: save()";
@@ -187,6 +203,14 @@ bool WzWord::insertPictureIntoLabel(const QString label, const QString fileName)
         return false;
     }
 
+    //检查图片是否存在
+    QFile file(fileName);
+    if(!file.exists())
+    {
+        qDebug()<<"WzWord: 插入失败，图片不存在";
+        return false;
+    }
+
     label1->dynamicCall("Select(void)");
     QAxObject *picture = currentDocument->querySubObject("InlineShapes");
     picture->dynamicCall("AddPicture(const QString,QVariant,QVariant,QVariant)",
@@ -215,6 +239,14 @@ bool WzWord::insertPictureIntoLabel(const QString label, const QString fileName,
     if(label1 == NULL)
     {
         qDebug()<<"WzWord: 插入失败，标签对象为空，获取标签失败";
+        return false;
+    }
+
+    //检查图片是否存在
+    QFile file(fileName);
+    if(!file.exists())
+    {
+        qDebug()<<"WzWord: 插入失败，图片不存在";
         return false;
     }
 
